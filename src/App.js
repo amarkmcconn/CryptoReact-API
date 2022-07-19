@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
+import { Routes, Route } from 'react-router-dom';
 import Coins from "./components/Coins";
-import NavBar from "./components/NavBar";
+import Coin from './Routes/Coin';
+import NavBar from './components/NavBar';
 import './index.css';
 
 function App() {
@@ -14,14 +16,19 @@ function App() {
     axios.get(url)
       .then((res) => {
         setCoins(res.data)
-        console.log(res.data[0])
       }).catch((error) => alert('error'))
   }, []);
 
   return (
     <>
-    <NavBar />
-    <Coins coins={coins} />
+      <NavBar />
+      <Routes>
+        <Route path='/' element={<Coins coins={coins} />} />
+        <Route path='/coin' element={<Coin />}>
+          <Route path=':coinId' element={<Coin />} />
+        </Route>
+      </Routes>
+
     </>
   );
 }
